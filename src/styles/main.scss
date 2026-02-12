@@ -1,0 +1,35 @@
+$main-white: #f7f2ec;
+$main-pink: #ec7d7d;
+$main-orange: #e89005;
+$main-green: #0e7c7b;
+$main-black: #343a40;
+$main-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+
+body {
+  background-color: $main-white;
+  color: $main-black;
+  font-family: 'Google Sans', sans-serif;
+}
+
+.main-pick-color {
+  color: $main-pink;
+}
+
+.prevent-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vh-50 {
+  height: 50vh;
+}
+
+#header {
+  height: 10vh;
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: start;
+}
+
