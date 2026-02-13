@@ -8,5 +8,14 @@ export default defineConfig({
         rollupOptions: {
             external: ['dotenv', 'path', 'url']
         }
+    },
+    server: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000',
+                changeOrigin: true,
+                secure: false
+            }
+        }
     }
 });

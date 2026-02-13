@@ -3,11 +3,13 @@ import {Spoon} from "./entities/Spoon.js";
 import {Low} from 'lowdb';
 import {JSONFile} from 'lowdb/node';
 
-const database = new Low(new JSONFile('./src/data/db.json'), {});
+const adapter = new JSONFile('./backend/data/db.json');
+export const database = new Low(adapter, {});
+
 const spoonVolume = 15;
 const spoonVolumeUnit = 'ml';
 
-async function initDB() {
+export async function initDB() {
     await database.read();
     if (
         Array.isArray(database.data?.spoons) &&
@@ -26,10 +28,10 @@ async function initDB() {
 
 async function migrateData() {
     await initDB();
-    const data = await dataToMigrate();
-    if (data) {
+    const spoonsData = await dataToMigrate();
+    if (spoonsData) {
         const spoonsTable = database.data.spoons;
-        data.forEach((spoon) => spoonsTable.push(spoon));
+        spoonsData.forEach((spoon) => spoonsTable.push(spoon));
     }
     const migrationsTable = database.data.migrationsDate;
     const now = Date.now();
@@ -42,12 +44,12 @@ async function migrateData() {
         volume: spoonVolume,
         unit: spoonVolumeUnit,
     })
-
     await database.write();
-    console.log(`Migrated ${data ? data.length : 0} new spoons at ${new Date(now).toLocaleString()}`);
+    console.log(`Migrated ${spoonsData ? spoonsData.length : 0} new spoons at ${new Date(now).toLocaleString()}`);
 }
 
 await migrateData();
+
 
 async function dataToMigrate() {
     const data = await getCleanData();
@@ -58,22 +60,7 @@ async function dataToMigrate() {
             spoon.volume, spoon.volumeUnit);
         return newSpoon.isValid();
     });
-    const uniqueSpoons = [];
-    for (const spoon of validSpoons) {
-        const isUnique = await isUniqueSpoon(spoon.ingredient);
-        if (isUnique) uniqueSpoons.push(spoon);
-    }
-    if (uniqueSpoons.length !== 0 && Array.isArray(uniqueSpoons)) {
-
-        return uniqueSpoons;
-    }
+    if (validSpoons.length > 0 && Array.isArray(validSpoons)) return validSpoons;
 
     return null;
-}
-
-async function isUniqueSpoon(ingredient) {
-    await initDB();
-    const spoon = database.data.spoons.find((spoon) => spoon.ingredient === ingredient);
-
-    return !spoon;
 }

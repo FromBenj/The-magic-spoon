@@ -1,4 +1,4 @@
-import {routes} from "./router.js";
+import {routes} from "../router.js";
 export function loadHome() {
     if (routes[window.location.pathname] !== 'home') return;
     const homeContainer = document.getElementById('home-container');

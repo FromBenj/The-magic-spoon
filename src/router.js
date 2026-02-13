@@ -1,11 +1,11 @@
-import {loadCarousel} from "./carousel.js";
+import {renderCarousel} from "./js/carousel.js";
 import {getElement} from "bootstrap/js/src/util/index.js";
 
 const app = document.getElementById('app');
 
 export const routes = {
     '/': 'home',
-    '/spoon': 'spoon',
+    '/spoons': 'spoons',
     '/favourites': 'favorites',
     '/oops': '404-error',
 };
@@ -32,16 +32,16 @@ function render() {
     const path = window.location.pathname;
     const viewName = routes[path] ?? '404-error';
     loadView(viewName)
-        .then(html => {
+        .then(async html => {
             headerManagement(viewName);
             app.innerHTML = html ?? get404ErrorView();
-            if (viewName === 'spoon') loadCarousel();
+            if (viewName === 'spoons') await renderCarousel();
         })
 }
 
 function loadView(viewName) {
     if (!app) return;
-    return fetch('/views/' + viewName + '.html')
+    return fetch('./views/' + viewName + '.html')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Request error');

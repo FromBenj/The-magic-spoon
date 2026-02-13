@@ -13,8 +13,8 @@ import '/src/app.scss';
 // Js
 import 'bootstrap';
 import {loadHome} from './js/home.js';
-import {appRouter} from "./js/router.js";
-document.addEventListener('DOMContentLoaded', () => {
+import {appRouter} from "./router.js";
+document.addEventListener('DOMContentLoaded', async () => {
     appRouter();
     loadHome();
 })
