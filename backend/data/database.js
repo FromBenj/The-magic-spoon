@@ -48,19 +48,37 @@ async function migrateData() {
     console.log(`Migrated ${spoonsData ? spoonsData.length : 0} new spoons at ${new Date(now).toLocaleString()}`);
 }
 
+// Launch migrations
 await migrateData();
 
-
 async function dataToMigrate() {
+    const database = await initDB();
+    const spoonsTable = database.data.spoons;
     const data = await getCleanData();
     const validSpoons = data.filter(spoon => {
         const newSpoon = new Spoon(
             spoon.ingredient,
             spoon.weight, spoon.weightUnit,
             spoon.volume, spoon.volumeUnit);
-        return newSpoon.isValid();
+        const isSpoonInDB = spoonsTable.find(s => s.ingredient === spoon.ingredient)
+        return newSpoon.isValid() && !isSpoonInDB;
     });
+
     if (validSpoons.length > 0 && Array.isArray(validSpoons)) return validSpoons;
 
     return null;
+}
+
+export async function getSpoonsFromIngredients(userQuery) {
+    const database = await initDB();
+    const spoonTable = database.data.spoons;
+    const q = userQuery.toLowerCase().trim();
+    if (typeof q !== 'string') return '';
+    return spoonTable.filter(spoon => {
+        return spoon.ingredient
+            .toLowerCase()
+            .trim()
+            .startsWith(q)
+
+    });
 }

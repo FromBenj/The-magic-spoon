@@ -39,3 +39,19 @@
     background-color: main.$main-pink;
   }
 }
+
+#search-title {
+  border-bottom: solid thin main.$main-pink;
+}
+
+#ingredient-search {
+  border-radius: 0.5rem;
+  border: solid 2px main.$main-light-green;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: main.$main-green;
+    outline: main.$main-light-green;
+  }
+}

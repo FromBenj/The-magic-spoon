@@ -9,6 +9,8 @@ export async function getCleanData() {
     return parseCSVData(csvData, csvHeight);
 }
 
+await getCleanData();
+
 function parseCSVData(csvData, csvHeight) {
     const parsedData =  parse(csvData, {
         columns: true,

@@ -1,5 +1,5 @@
 import {renderCarousel} from "./js/carousel.js";
-import {getElement} from "bootstrap/js/src/util/index.js";
+import {searchIngredients} from "./js/spoons-form.js";
 
 const app = document.getElementById('app');
 
@@ -35,7 +35,10 @@ function render() {
         .then(async html => {
             headerManagement(viewName);
             app.innerHTML = html ?? get404ErrorView();
-            if (viewName === 'spoons') await renderCarousel();
+            if (viewName === 'spoons') {
+                searchIngredients();
+                await renderCarousel();
+            }
         })
 }
 
