@@ -1,10 +1,24 @@
 export class Spoon {
-    constructor(ingredient, weight, weightUnit, volume, volumeUnit) {
+    constructor(ingredient, weight, weightUnit, volume, volumeUnit, hash = null) {
         this.ingredient = ingredient;
         this.weight = weight;
         this.weightUnit = weightUnit;
         this.volume = volume;
         this.volumeUnit = volumeUnit;
+        this.hash = null;
+    }
+
+    setHash() {
+        if(!this.isValid()) return;
+        const hash = this.ingredient
+            .toLowerCase()
+            .trim();
+        if (hash.includes(' ')) {
+            hash.replace(' ', '_');
+        }
+        this.hash = hash;
+
+        return this;
     }
 
     isValid() {

@@ -1,7 +1,7 @@
 import {routes} from "../router.js";
 
 async function getResearchPropositions(q) {
-    return fetch('/api/spoons/data/search', {
+    return fetch('/api/spoons/search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,19 +19,32 @@ export function searchIngredients() {
     let ingredient = '';
     if (routes[window.location.pathname] !== 'spoons') return;
     const searchInput = document.getElementById("ingredient-search");
-    if (!searchInput) return;
+    const propositions = document.getElementById('search-propositions');
+    if (!searchInput || !propositions) return;
     searchInput.addEventListener('input', async (e) => {
-        const q = e.target.value;
-        if (!isInputValueValid(q) || q.length > 1) return;
-        const ingredients = await getResearchPropositions(q);
-        console.log(ingredients);
-    })
-
-    return ingredient;
+            const q = e.target.value;
+            searchInputAnimation(q.length);
+            if (!isInputValueValid(q)) {
+                removeChildren(propositions);
+                return;
+            }
+            const spoons = await getResearchPropositions(q);
+            renderPropositions(spoons);
+        }, {passive: true}
+    )
 }
 
-function renderAutoCompletion(ingredients) {
-    return '';
+function renderPropositions(spoons) {
+    const resultsContainer = document.getElementById('search-propositions');
+    if (!resultsContainer) return;
+    removeChildren(resultsContainer);
+    if (!spoons.length) return;
+    for (let i = 0; i < Math.min(spoons.length, 2); i++) {
+        const proposition = document.createElement('div');
+        proposition.innerText = spoons[i].ingredient;
+        proposition.classList.add('search-proposition');
+        resultsContainer.appendChild(proposition)
+    }
 }
 
 function isInputValueValid(value) {
@@ -44,13 +57,29 @@ function isInputValueValid(value) {
 
 function searchInputAnimation(searchLength) {
     const clearButton = document.getElementById("clear-button");
-    if (!clearButton) return;
-    if (searchLength === 0) clearButton.style.display = 'none';
-    if (searchLength !== 0 && clearButton.style.display !== 'block') {
-        clearButton.style.display = 'block';
+    const searchInput = document.getElementById('ingredient-search');
+    const propositions = document.getElementById('search-propositions');
+    if (!clearButton || !searchInput || !propositions) return;
+    if (searchLength > 0 && clearButton.style.opacity !== '1') {
+        clearButton.style.opacity = '1';
     }
+    if (searchLength === 0 && clearButton.style.opacity !== '0.1') {
+        clearButton.style.opacity = '0.1';
+    }
+    if (searchLength > 0) {
+        clearButton.addEventListener('touchstart', () => {
+            searchInput.value = '';
+            removeChildren(propositions);
+        }, {passive: true})
+    }
+}
 
-    clearButton.addEventListener('touchstart', () => {
+const removeChildren = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
-    })
+function ingredientRedirection(ingredient) {
+
 }

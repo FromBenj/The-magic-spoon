@@ -1,11 +1,12 @@
 <div class="vw-100 p-3 d-flex flex-column justify-content-center align-items-center" id="spoons-form">
-    <div class="d-flex flex-column">
-        <h6 id="search-title" class="text-start w-75">search</h6>
-        <div class="d-flex align-items-center">
+    <div class="d-flex flex-column  position-relative">
+        <h6 class="text-start w-75" id="search-title">search</h6>
+        <div id="input-container" class="d-flex align-items-center">
             <label for="ingredient-search"></label>
             <input id="ingredient-search" type="text">
-            <i id="clear-button" class="ps-1 fa-solid fa-xmark"></i>
+            <i class="ps-1 fa-solid fa-xmark" id="clear-button"></i>
         </div>
+        <div id="search-propositions"></div>
     </div>
 </div>
 <div id="spoons-carousel-container"></div>
