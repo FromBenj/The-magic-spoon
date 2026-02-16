@@ -13,12 +13,10 @@ import '/src/app.scss';
 
 // Js
 import 'bootstrap';
-import {loadHome} from './js/home.js';
 import {appRouter} from "./router.js";
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     appRouter();
-    loadHome();
 })
 
 console.log('main.js is running correctly');

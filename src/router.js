@@ -1,5 +1,6 @@
 import {renderCarousel} from "./js/carousel.js";
 import {searchIngredients} from "./js/spoons-form.js";
+import {fromHomeToSpoons} from "./js/home.js";
 
 const app = document.getElementById('app');
 
@@ -23,7 +24,7 @@ export function appRouter() {
     render();
 }
 
-function navigateTo(url) {
+export function navigateTo(url) {
     history.pushState(null, null, url);
     render();
 }
@@ -38,6 +39,9 @@ function render() {
             if (viewName === 'spoons') {
                 searchIngredients();
                 await renderCarousel();
+            }
+            if (viewName === 'home') {
+                fromHomeToSpoons();
             }
         })
 }
