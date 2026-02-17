@@ -36,6 +36,20 @@ ___
 ```
   git clone https://github.com/FromBenj/The-magic-spoon.git
 ```
+- Enter the folder
+```
+  cd The-magic-spoon
+```
+- Install NPM dependencies
+```
+  npm install
+```
+
+- Duplicate .env to create **.env.local**. For Linux:
+```
+  cp .env .env.local
+```
+
 - Launch the server 
 ```
   npm run backend
