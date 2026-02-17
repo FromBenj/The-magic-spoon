@@ -1,4 +1,5 @@
 import {routes} from "../router.js";
+import {loadCarousel} from "./carousel.js";
 
 async function getResearchPropositions(q) {
     return fetch('/api/spoons/search', {
@@ -38,12 +39,18 @@ function renderPropositions(spoons) {
     const resultsContainer = document.getElementById('search-propositions');
     if (!resultsContainer) return;
     removeChildren(resultsContainer);
+    const swiper = loadCarousel();
     if (!spoons.length) return;
     for (let i = 0; i < Math.min(spoons.length, 2); i++) {
         const proposition = document.createElement('div');
         proposition.innerText = spoons[i].ingredient;
         proposition.classList.add('search-proposition');
         resultsContainer.appendChild(proposition)
+        proposition.addEventListener('touchstart', () => {
+            const target = spoons[i].index;
+            console.log(target)
+            swiper.slideTo(target, 600);
+        })
     }
 }
 

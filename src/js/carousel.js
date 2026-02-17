@@ -9,7 +9,7 @@ export async function renderCarousel() {
     loadCarousel();
 }
 
-function loadCarousel() {
+export function loadCarousel() {
     const swiper = document.querySelector('.swiper');
     if (!swiper) return;
 
@@ -49,6 +49,10 @@ async function addCarouselContent() {
             console.log(err);
             console.log('error when fetching Spoons data')
         });
+        spoons.forEach( (spoon, i) => {
+            spoon.index = i;
+            return spoon;
+        })
 
     const context = {spoons};
     document.getElementById('spoons-carousel-container').innerHTML = Mustache.render(template, context);

@@ -37,6 +37,7 @@ function render() {
             headerManagement(viewName);
             app.innerHTML = html ?? get404ErrorView();
             if (viewName === 'spoons') {
+                backToHome();
                 searchIngredients();
                 await renderCarousel();
             }
@@ -84,4 +85,11 @@ function backButton() {
     backButton.addEventListener('touchstart', () => {
         window.history.back();
     })
+}
+
+function backToHome() {
+    const backHomeBtn = document.querySelector('.back-home');
+    if(!backHomeBtn) return;
+
+    backHomeBtn.addEventListener('touchstart', () => navigateTo('/'));
 }
