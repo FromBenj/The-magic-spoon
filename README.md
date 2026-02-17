@@ -56,11 +56,12 @@ ___
 ```
 The **database file will be created automatically** in the backend/data folder.
 
-- Launch Vite
+- In another terminal launch Vite
 ```
   npm run dev
 ```
-- Get a coffee and test it
+- Get a coffee and **test it**. \
+_Be careful. Everything was developed mobile-first (touchstart events, ...)_
 
 ### License
 ___
